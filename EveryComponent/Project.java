@@ -4,9 +4,10 @@ import java.io.*;
 
 class Project{
     public static void main(String[] args) throws FileNotFoundException {
-        /*
+        
         Scanner user = new Scanner(System.in);
         Attributes person = new Attributes();
+        String fileName = "PeopleData.csv";
 
         // Asking the user multiple questions about themselves
         System.out.println("Answer every question in lowercase.");
@@ -18,45 +19,38 @@ class Project{
 
         System.out.println("How old are you?");
         int age = user.nextInt();
-        */
-
-        country("CountryList.txt");
-        /*
+        
+        System.out.println("What country are you from?");
+        String country = user.nextLine();
+        country = user.nextLine();
+        
         System.out.println("What city are you from?");
         String city = user.nextLine();
 
+        person.userName(name);
+        person.userSubject(subject);
+        person.userAge(age);
+        person.userCountry(country);
+        person.userCity(city);
+
+        addData(name, subject, age, country, city, fileName);
+
         user.close();
-        */
+        
     }
 
-    public static String country(String fileName) throws FileNotFoundException {
-        File file = new File(fileName);
-        Scanner scan = new Scanner(file);
-        String line = "";
-
-        Scanner user = new Scanner(System.in);
-
-        System.out.println("What country are you from?");
-        String country = user.nextLine();
+    public static void addData(String name, String subject, int age, String country, String city, String fileName) {
         
-        while(scan.hasNextLine()) {
-            line = scan.nextLine();
-            if (country.equals(line)) {
-                return country;
-            }
-            else if(country != line) {
-                if (scan.hasNextLine()) {
-                    line = scan.nextLine();
-                }
-                else {
-                    System.out.println("Invalid country");
-                    System.out.println("What country are you from?");
-                    country = user.nextLine();
-                }
-            }
-            user.close();
+        try {
+            FileWriter fw = new FileWriter(fileName, true);
+            BufferedWriter bw = new BufferedWriter(fw);
+            PrintWriter pw = new PrintWriter(bw);
+
+            pw.println(name + "," + subject + "," + age + "," + country + "," + city);
+            pw.flush();
+            pw.close();
+        } catch (IOException e) {
+            System.out.println("File not found");
         }
-        scan.close();
-        return country;
     }
 }
