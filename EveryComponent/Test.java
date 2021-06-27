@@ -12,6 +12,7 @@ class Test{
 
         String[] data = new String[4];
         int lineCount = 0;
+        String[] comparedData = new String[lineCount];  //Array that has the info of other people and also the number of similarities you have with them
         int similarCount = 0;
 
         // Asking the user multiple questions about themselves
@@ -28,9 +29,6 @@ class Test{
         System.out.println("What is your first language? (Answer in lowercase)");
         String language = user.nextLine();
         language = user.nextLine();
-
-        lineCount = lineCount(fileName);
-        String[] comparedData = new String[lineCount];  //Array that has the info of other people and also the number of similarities you have with them
         
         if (scan.hasNextLine() == false) {
             addData(name, subject, ageStr, language, fileName);
@@ -39,7 +37,7 @@ class Test{
 
         else if (scan.hasNextLine()) {
             addData(name, subject, ageStr, language, fileName);
-
+            lineCount = lineCount(fileName); 
             for (int i = 0; i < lineCount; i++) {
                 data = combiningMethods(fileName);
                 for (int j = 0; j < 3; j++) {
@@ -169,7 +167,8 @@ class Test{
 
     public static void printArray(String[] arr) {
         System.out.println("People that match the best with you...");
-        for (int i = 0; i < 5; i++) {
+        int max = arr.length;
+        for (int i = max; i >= max - 5; i--) {
             System.out.println(arr[i]);
         }
     }
