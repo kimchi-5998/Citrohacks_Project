@@ -2,7 +2,7 @@ package EveryComponent;
 import java.util.*;
 import java.io.*;
 
-class Project{
+class Test{
     public static void main(String[] args) throws FileNotFoundException {
         
         Scanner user = new Scanner(System.in);
@@ -13,13 +13,6 @@ class Project{
         String[] data = new String[4];
         int lineCount = 0;
         int similarCount = 0;
-        int count = 0;
-
-
-        while (scan.hasNextLine()) {
-            lineCount++;
-        }
-        String[] comparedData = new String[lineCount];
 
         // Asking the user multiple questions about themselves
         System.out.println("What is your name?");
@@ -32,40 +25,37 @@ class Project{
         int age = user.nextInt();
         String ageStr = Integer.toString(age);
         
-        System.out.println("What is your first language?");
+        System.out.println("What is your first language? (Answer in lowercase)");
         String language = user.nextLine();
         language = user.nextLine();
 
+        lineCount = lineCount(fileName);
+        String[] comparedData = new String[lineCount];  //Array that has the info of other people and also the number of similarities you have with them
+        
         if (scan.hasNextLine() == false) {
             addData(name, subject, ageStr, language, fileName);
             System.out.println("Sorry, there is no other data at the moment");
         }
-        
+
         else if (scan.hasNextLine()) {
+            addData(name, subject, ageStr, language, fileName);
+
             for (int i = 0; i < lineCount; i++) {
                 data = combiningMethods(fileName);
-                System.out.println(data[0]);
-                System.out.println(data[1]);
+                for (int j = 0; j < 3; j++) {
+                    if (subject.equals(data[1]) || ageStr.equals(data[2]) || language.equals(data[3])) {
+                        similarCount++;
+                    }
+                }
+                comparedData[i] = similarCount + ", " + data[0];
             }
-            /*
-            while(scan.hasNextLine()) {
-                data = combiningMethods(fileName);
-                if (subject.equals(data[1])) {
-                    similarCount =+ 1;
-                }
-                else if (ageStr.equals(data[2])) {
-                    similarCount =+ 1;
-                }
-                else if (language.equals(data[3])) {
-                    similarCount =+ 1;
-                }
-                comparedData[count] = similarCount + "." + data[0];
-            }
-            */
-            addData(name, subject, ageStr, language, fileName);
         }
+
+        order(comparedData);
+        printArray(comparedData);
+
+        scan.close();
         user.close();
-        
     }
 
     /*
@@ -92,6 +82,7 @@ class Project{
         File file = new File(fileName);
         Scanner scan = new Scanner(file);
         String line = scan.nextLine();
+        scan.close();
         return line;
     }
 
@@ -137,5 +128,49 @@ class Project{
         }
         data[3] = line;
         return data;
+    }
+
+    public static int lineCount(String fileName) throws FileNotFoundException {
+        int lineCount = 0;
+        File file = new File(fileName);
+        Scanner scan = new Scanner(file);
+        while(scan.hasNextLine()) {
+            lineCount++;
+        }
+        scan.close();
+        return lineCount;
+    }
+
+    public static void order(String[] arr) {
+        String tempStr;
+        int temp;
+        int arrLength = arr.length;
+        int[] num = new int[arrLength];
+
+        for (int i = 0; i < arrLength; i++) {
+            String x = arr[i].substring(0, 1);
+            int xnum = Integer.parseInt(x);
+            num[i] = xnum;
+        }
+
+        for (int i = 0; i < arr.length - 1; i++) {
+            for (int j = 0; j < arr.length - i - 1; j++) {
+                if (num[j] > num[j+1]) {
+                    temp = num[j+1];    // Hold the right value in temp
+                    tempStr = arr[j+1];
+                    num[j+1] = num[j];  // Overwrite the right value with the left value
+                    arr[j+1] = arr[j];
+                    num[j] = temp;      // Replace the left value with the original right value
+                    arr[j] = tempStr;
+                }
+            }
+        }
+    }
+
+    public static void printArray(String[] arr) {
+        System.out.println("People that match the best with you...");
+        for (int i = 0; i < 5; i++) {
+            System.out.println(arr[i]);
+        }
     }
 }

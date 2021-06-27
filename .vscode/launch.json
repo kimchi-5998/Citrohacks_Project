@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Launch Test",
+            "request": "launch",
+            "mainClass": "EveryComponent.Test",
+            "projectName": "Citrohacks_Project_4a2f8a1e"
+        },
+        {
+            "type": "java",
             "name": "Launch Current File",
             "request": "launch",
             "mainClass": "${file}"
