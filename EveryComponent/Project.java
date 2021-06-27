@@ -36,7 +36,6 @@ class Project{
         }
 
         else if (scan.hasNextLine()) {
-            addData(name, subject, ageStr, language, fileName);
             lineCount = lineCount(fileName); 
             for (int i = 0; i < lineCount; i++) {
                 data = combiningMethods(fileName);
@@ -47,6 +46,7 @@ class Project{
                 }
                 comparedData[i] = similarCount + ", " + data[0];
             }
+            addData(name, subject, ageStr, language, fileName);
         }
 
         order(comparedData);
