@@ -7,8 +7,19 @@ class Project{
         
         Scanner user = new Scanner(System.in);
         String fileName = "PeopleData.csv";
+        File file = new File(fileName);
+        Scanner scan = new Scanner(file);
+
         String[] data = new String[4];
+        int lineCount = 0;
+        int similarCount = 0;
         int count = 0;
+
+
+        while (scan.hasNextLine()) {
+            lineCount++;
+        }
+        String[] comparedData = new String[lineCount];
 
         // Asking the user multiple questions about themselves
         System.out.println("What is your name?");
@@ -25,29 +36,29 @@ class Project{
         String language = user.nextLine();
         language = user.nextLine();
 
-        File file = new File(fileName);
-        Scanner scan = new Scanner(file);
-
         if (scan.hasNextLine() == false) {
             addData(name, subject, ageStr, language, fileName);
             System.out.println("Sorry, there is no other data at the moment");
         }
         
         else if (scan.hasNextLine()) {
-            addData(name, subject, ageStr, language, fileName);
             while(scan.hasNextLine()) {
                 data = combiningMethods(fileName);
                 if (subject.equals(data[1])) {
-                    count =+ 1;
+                    similarCount =+ 1;
                 }
                 else if (ageStr.equals(data[2])) {
-                    count =+ 1;
+                    similarCount =+ 1;
                 }
                 else if (language.equals(data[3])) {
-                    count =+ 1;
+                    similarCount =+ 1;
                 }
+                comparedData[count] = similarCount + "." + data[0];
+                count++;
             }
+            addData(name, subject, ageStr, language, fileName);
         }
+        System.out.println(comparedData[0]);
 
         user.close();
         
